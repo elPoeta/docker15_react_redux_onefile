@@ -1,12 +1,12 @@
 // index.js, react redux, onefile flatting explanation.
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import { Provider, connect } from "react-redux";
-import './App.css';
+import classes from './App.module.css';
 import uuidv1 from "uuid";
-import { createStore } from 'redux'; 
+import { createStore } from 'redux';
 //// Route (business logic) actions, with tipified constant Names.
 //// To change de state of the Global store App
 const ADD_ARTICLE = "ADD_ARTICLE";
@@ -16,7 +16,7 @@ const initialState = {
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_ARTICLE:
-      return { ...state, articles: [ ...state.articles, action.payload ] };    
+      return { ...state, articles: [...state.articles, action.payload] };
     default:
       return state;
   }
@@ -36,19 +36,14 @@ const mapDispatchToProps = dispatch => {
     addArticle: article => dispatch(addArticle(article))
   };
 };
-class ConnectedForm extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      title: ""
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-  handleChange(event) {
-    this.setState({ [event.target.id]: event.target.value });
-  }
-  handleSubmit(event) {
+class ConnectedForm extends Component {
+
+  state = {
+    title: ""
+  };
+
+  handleChange = event => this.setState({ [event.target.id]: event.target.value });
+  handleSubmit = event => {
     event.preventDefault();
     const { title } = this.state;
     const id = uuidv1();
@@ -71,7 +66,7 @@ class ConnectedForm extends React.Component {
         </div>
         <button type="submit" className="">
           SAVE
-        </button>
+          </button>
       </form>
     );
   }
@@ -95,8 +90,8 @@ const ConnectedList = ({ articles }) => (
 const List = connect(mapStateToProps)(ConnectedList);
 //// Create de view in jsx, width html and React Component of the Application
 const App = () => (
-  <div className="App">
-    <div className="App-header">
+  <div className={classes.App}>
+    <div className={classes.header}>
       <h2>Add a new article</h2>
       <Form />
     </div>
